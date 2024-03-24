@@ -7,10 +7,10 @@ class Segment {
     this.p2 = p2;
   }
 
-  equals = (segment) =>
-    (this.p1.equals(segment.p1) && this.p2.equals(segment.p2)) ||
-    (this.p1.equals(segment.p2) && this.p2.equals(segment.p1));
+  equals = (segment) => this.includes(segment.p1) && this.includes(segment.p2);
 
+  includes = (point) => this.p1.equals(point) || this.p2.equals(point);
+  
   draw(ctx, width = 2, color = "black") {
     ctx.beginPath();
     ctx.lineWidth = width;
