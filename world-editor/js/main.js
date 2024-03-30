@@ -1,12 +1,14 @@
 import Point from "./primitives/points.js";
 import Segment from "./primitives/segments.js";
 import Graph from "./math/graph.js";
+import GraphEditor from "./graphEditor.js";
 
 // Elements
 const addPointBtn = document.getElementById("addRandomPoint");
 const addSegmentBtn = document.getElementById("addRandomSegment");
 const removePointBtn = document.getElementById("removeRandomPoint");
 const removeSegmentBtn = document.getElementById("removeRandomSegment");
+const removeAllBtn = document.getElementById("removeAll");
 
 // Canvas
 myCanvas.width = 600;
@@ -15,8 +17,18 @@ myCanvas.height = 600;
 const ctx = myCanvas.getContext("2d");
 
 const graph = new Graph();
-graph.draw(ctx);
+const graphEditor = new GraphEditor(myCanvas, graph);
 
+animate();
+
+function animate() {
+  ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+  graphEditor.display();
+  requestAnimationFrame(animate);
+}
+
+
+/* ----------------------- */
 // helpers
 const addRandomPoint = () => {
   const success = graph.addPoint(
@@ -28,7 +40,6 @@ const addRandomPoint = () => {
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
   graph.draw(ctx);
 
-  console.log(success);
 };
 const addRandomSegment = () => {
   // wenn alle segme nte schon vergeben sind, dann nichts mehr machen
@@ -42,8 +53,6 @@ const addRandomSegment = () => {
   );
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
   graph.draw(ctx);
-
-  console.log(success, graph.segments.length);
 };
 const removeRandomPoint = () => {
   if (graph.points.length == 0) return;
@@ -53,7 +62,6 @@ const removeRandomPoint = () => {
 
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
   graph.draw(ctx);
-
 };
 const removeRandomSegment = () => {
   if (graph.segments.length == 0) return;
@@ -63,10 +71,15 @@ const removeRandomSegment = () => {
 
   ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
   graph.draw(ctx);
-
 };
-// Event Listeners
-addPointBtn.addEventListener("click", addRandomPoint);
-addSegmentBtn.addEventListener("click", addRandomSegment);
-removePointBtn.addEventListener("click", removeRandomPoint);
-removeSegmentBtn.addEventListener("click", removeRandomSegment);
+const removeAll = () => {
+  graph.dispose();
+  ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+  graph.draw(ctx);
+};
+// Event List eners
+// addPointBtn.addEventListener("click", addRandomPoint);
+// addSegmentBtn.addEventListener("click", addRandomSegment);
+// removePointBtn.addEventListener("click", removeRandomPoint);
+// removeSegmentBtn.addEventListener("click", removeRandomSegment);
+// removeAllBtn.addEventListener("click", removeAll);
